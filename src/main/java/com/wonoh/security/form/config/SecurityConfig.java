@@ -14,7 +14,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // http 요청 인가 ( 어떻게 허용할것인지 )
         http.authorizeRequests()
-                .mvcMatchers("/","/info").permitAll()
+                .mvcMatchers("/","/info","/account/**").permitAll()
                 .mvcMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
