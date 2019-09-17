@@ -2,11 +2,15 @@ package com.wonoh.security.form;
 
 import com.wonoh.security.form.account.AccountContext;
 import com.wonoh.security.form.account.AccountRepository;
+import com.wonoh.security.form.common.SecurityLogger;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
+import java.util.concurrent.Callable;
 
 @Controller
 public class SampleController{
@@ -50,5 +54,18 @@ public class SampleController{
     public String user(Model model,Principal principal){
         model.addAttribute("message","Hello user " + principal.getName());
         return "user";
+    }
+
+    @GetMapping("/async-handler")
+    @ResponseBody
+    public Callable<String> asyncHandler(){
+
+        SecurityLogger.log("MVC");
+
+        // Callable 안에선 별도의 스레드로 실행
+        return () -> {
+            SecurityLogger.log("Callable");
+            return "Async handler";
+        };
     }
 }
