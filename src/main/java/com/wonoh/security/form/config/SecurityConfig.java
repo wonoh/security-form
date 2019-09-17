@@ -69,6 +69,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic();
     }
 
+    /**
+     * 동적자원 리소스들은 이부분에 넣지 않는다.
+     * 정적 자원 리소스들에 대한 설정만.
+     *   PathRequest.toStaticResources().atCommonLocations() ->  "/css/**" , "/js/**" , "/images/**" , "/webjars/**"
+     *   "/**favicon.ico"
+     * @param web
+     */
     @Override
     public void configure(WebSecurity web){
         web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
