@@ -1,6 +1,8 @@
 package com.wonoh.security.form;
 
 
+import com.wonoh.security.form.common.SecurityLogger;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,5 +17,11 @@ public class SampleService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         System.out.println("====================");
         System.out.println(userDetails.getUsername());
+    }
+
+    @Async
+    public void asyncService() {
+        SecurityLogger.log("Async service");
+        System.out.println("Async service is called");
     }
 }
