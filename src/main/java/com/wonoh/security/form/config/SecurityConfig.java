@@ -66,7 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // expressionHandler 로도 roleHierarchy 설정 가능!
                 .expressionHandler(expressionHandler());
 
-        http.formLogin();
+        http.formLogin()
+                .loginPage("/login")
+                .permitAll();
         http.httpBasic();
 
         http.logout()
