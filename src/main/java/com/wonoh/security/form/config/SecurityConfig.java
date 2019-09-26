@@ -76,6 +76,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true);
 
+        http.sessionManagement()
+                .sessionFixation()
+                    .changeSessionId()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false);
+
         // 기본값인 ThreadLocal 을 사용하면 스레드 안에서만 공유한다.
         // MODE_INHERITABLETHREADLOCAL -> 스레드 안에서 생기는 스레드까지 컨텍스트 정보를 공유한다.
         SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_INHERITABLETHREADLOCAL);
