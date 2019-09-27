@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 
@@ -81,6 +82,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .changeSessionId()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false);
+
+        http.exceptionHandling()
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                    String username = principal.getUsername();
+                    System.out.println(username + "is denied to access" + request.getRequestURI());
+                    response.sendRedirect("/access-denied");
+                });
 
         // 기본값인 ThreadLocal 을 사용하면 스레드 안에서만 공유한다.
         // MODE_INHERITABLETHREADLOCAL -> 스레드 안에서 생기는 스레드까지 컨텍스트 정보를 공유한다.
