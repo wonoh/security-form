@@ -1,5 +1,6 @@
 package com.wonoh.security.form.config;
 
+import com.wonoh.security.form.common.LoggingFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
 import java.util.Collections;
 import java.util.List;
@@ -56,6 +58,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        // 커스텀 필터 추가
+        http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
 
         // http 요청 인가 ( 어떻게 허용할것인지 )
         http.authorizeRequests()
