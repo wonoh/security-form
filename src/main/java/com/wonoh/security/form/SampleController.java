@@ -2,7 +2,11 @@ package com.wonoh.security.form;
 
 import com.wonoh.security.form.account.AccountContext;
 import com.wonoh.security.form.account.AccountRepository;
+import com.wonoh.security.form.account.UserAccount;
+import com.wonoh.security.form.book.Book;
+import com.wonoh.security.form.book.BookRepository;
 import com.wonoh.security.form.common.SecurityLogger;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 @Controller
@@ -17,18 +22,21 @@ public class SampleController{
 
     private final SampleService sampleService;
     private final AccountRepository accountRepository;
+    private final BookRepository bookRepository;
 
-    public SampleController(SampleService sampleService, AccountRepository accountRepository){
+    public SampleController(SampleService sampleService, AccountRepository accountRepository,
+                            BookRepository bookRepository){
         this.sampleService = sampleService;
         this.accountRepository = accountRepository;
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping("/")
-    public String index(Model model,Principal principal){
-        if(principal == null){
+    public String index(Model model, @AuthenticationPrincipal UserAccount userAccount){
+        if(userAccount == null){
             model.addAttribute("message","Hello Spring");
         }else{
-            model.addAttribute("message","Hello " + principal.getName());
+            model.addAttribute("message","Hello " + userAccount.getUsername());
         }
         return "index";
     }
@@ -53,6 +61,8 @@ public class SampleController{
     @GetMapping("/user")
     public String user(Model model,Principal principal){
         model.addAttribute("message","Hello user " + principal.getName());
+        model.addAttribute("books",bookRepository.findCurrentUserBooks());
+
         return "user";
     }
 
