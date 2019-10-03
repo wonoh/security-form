@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.wonoh.security'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -23,6 +23,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4
     // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
     compile group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity5', version: '3.0.4.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework.security/spring-security-data
+    compile group: 'org.springframework.security', name: 'spring-security-data', version: '5.1.6.RELEASE'
 
 
     // https://mvnrepository.com/artifact/com.h2database/h2
